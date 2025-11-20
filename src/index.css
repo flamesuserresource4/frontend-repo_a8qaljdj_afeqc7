@@ -4,43 +4,47 @@
 
 @layer base {
   :root {
-    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-geist: 'Geist', system-ui, sans-serif;
-    --font-geist-mono: 'Geist Mono', monospace;
-    --font-mona: 'Mona Sans', system-ui, sans-serif;
-    --font-ibm-plex: 'IBM Plex Sans', system-ui, sans-serif;
-    --font-manrope: 'Manrope', system-ui, sans-serif;
+    --brand-blue: #2848b7; /* primary */
+    --brand-cyan: #58c8e0; /* accents/gradients */
+    --brand-deep: #002c77; /* dark sections */
+    --brand-white: #ffffff;
+    --accent-pink: #e54d9b; /* charts/badges only */
+    --accent-teal: #45bda6; /* charts/badges only */
+    --accent-orange: #F9a84f; /* special CTAs/badges */
   }
 
-  html {
-    font-family: var(--font-sans);
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+  html { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+  h1,h2,h3,h4,h5,h6 { font-weight: 600; }
+  .serif-elegant { font-family: 'Bodoni Moda', Georgia, serif; }
 
-  body {
-    @apply antialiased;
-  }
+  body { @apply antialiased bg-white text-slate-800; }
 }
 
-/* Custom utility classes for shadcn/ui patterns */
 @layer utilities {
-  .animate-in {
-    animation-name: animateIn;
-    animation-duration: 350ms;
-    --tw-enter-opacity: initial;
-    --tw-enter-scale: initial;
-    --tw-enter-rotate: initial;
-    --tw-enter-translate-x: initial;
-    --tw-enter-translate-y: initial;
+  .brand-gradient {
+    background-image: radial-gradient(60% 100% at 10% 0%, rgba(88,200,224,0.25) 0%, rgba(88,200,224,0.0) 50%),
+      linear-gradient(135deg, var(--brand-blue), var(--brand-deep));
   }
+  .glass { @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.08)]; }
+  .glass-dark { @apply bg-slate-900/40 backdrop-blur-xl border border-white/10; }
+  .btn-primary { @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-white; background: var(--brand-blue); }
+  .btn-ghost { @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-slate-800 border border-slate-200 bg-white/60 hover:bg-white; }
+  .btn-gold { @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg font-semibold text-slate-900; background: var(--accent-orange); }
 
-  .animate-out {
-    animation-name: animateOut;
-    animation-duration: 350ms;
-    --tw-exit-opacity: initial;
-    --tw-exit-scale: initial;
-    --tw-exit-rotate: initial;
-    --tw-exit-translate-x: initial;
-    --tw-exit-translate-y: initial;
+  /* Ripple motif animations */
+  .ripple-bg circle { stroke: var(--brand-cyan); opacity: 0.35; }
+  @keyframes rippleExpand { from { r: 2; opacity: .6 } to { r: 260; opacity: 0 } }
+  .ripple-pulse {
+    position: relative;
   }
+  .ripple-pulse::before, .ripple-pulse::after {
+    content: ""; position: absolute; inset: -6px; border-radius: 9999px; border: 2px solid var(--brand-cyan);
+    animation: ripplePulse 2.4s ease-out infinite;
+  }
+  .ripple-pulse::after { animation-delay: .8s; }
+  @keyframes ripplePulse { 0%{ transform: scale(.9); opacity:.5 } 70%{ transform: scale(1.25); opacity:.15 } 100%{ transform: scale(1.35); opacity:0 } }
+
+  /* Entrances */
+  .fade-up { animation: fadeUp .6s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px) scale(.98) } to { opacity: 1; transform: translateY(0) scale(1) } }
 }
